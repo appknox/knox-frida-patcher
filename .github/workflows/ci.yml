@@ -48,6 +48,12 @@ jobs:
           sha256sum out_dir/$FILE
           xz -z out_dir/$FILE
 
+      - uses: actions/upload-artifact@v4
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+        with:
+          name: frida-gadget
+          path: out_dir/*.xz
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
